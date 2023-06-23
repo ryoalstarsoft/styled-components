@@ -1,0 +1,35 @@
+language: node_js
+dist: trusty
+sudo: required
+addons:
+  apt:
+    packages:
+      - libnss3
+      - google-chrome-beta
+branches:
+  only:
+    - master
+    - develop
+env:
+  global:
+    - GOOGLE_CHROME_BINARY="/usr/bin/google-chrome-beta"
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
+node_js:
+  - '8'
+  - '10'
+install: yarn --frozen-lockfile
+script:
+  - node --version
+  - yarn --version
+  - yarn build
+  - yarn test
+  - yarn flow
+  - yarn lint
+  - yarn size
+notifications:
+  email:
+    on_failure: change
+cache:
+  yarn: true
+  directories:
+    - node_modules
